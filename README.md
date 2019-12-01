@@ -1,2 +1,2 @@
 # Advent of Code 2019
-Solutions to Advent of Code 2019 problems in C
+Solutions to Advent of Code 2019 problems written in C
