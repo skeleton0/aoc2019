@@ -2,7 +2,6 @@
 #include <string.h>
 
 int add_match(int*);
-void print_password(int*);
 
 int main()
 {
@@ -47,14 +46,4 @@ int add_match(int* password)
 	       password[2] == password[3] ||
 	       password[3] == password[4] ||
 	       password[4] == password[5];
-}
-
-void print_password(int* password)
-{
-	for (int i = 0; i < 6; i++)
-	{
-		printf("%d", password[i]);
-	}
-
-	printf("\n");
 }
