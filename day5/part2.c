@@ -42,9 +42,9 @@ int main()
 	while (!halt)
 	{
 		char instruction[MAX_OPCODE_LEN];
-		if (snprintf(instruction, MAX_OPCODE_LEN, "%d", intcode_mem.elements[instr_ptr]) == -1)
+		if (snprintf(instruction, MAX_OPCODE_LEN, "%d", intcode_mem.data[instr_ptr]) == -1)
 		{
-			printf("Error reading opcode to string: %d\n", intcode_mem.elements[instr_ptr]);
+			printf("Error reading opcode to string: %d\n", intcode_mem.data[instr_ptr]);
 			exit(EXIT_FAILURE);
 		}
 
@@ -104,18 +104,18 @@ int main()
 		}
 	}
 
-	free(intcode_mem.elements);
+	free(intcode_mem.data);
 	return 0;
 }
 
 void binary_op(int_vec* intcode_mem, int* instr_ptr, int parm1_mode, int parm2_mode, BinaryOp op)
 {	
 
-	int a = parm1_mode ? intcode_mem->elements[*instr_ptr+1] : 
-	                     intcode_mem->elements[intcode_mem->elements[*instr_ptr+1]];
+	int a = parm1_mode ? intcode_mem->data[*instr_ptr+1] : 
+	                     intcode_mem->data[intcode_mem->data[*instr_ptr+1]];
 
-	int b = parm2_mode ? intcode_mem->elements[*instr_ptr+2] : 
-	                     intcode_mem->elements[intcode_mem->elements[*instr_ptr+2]];
+	int b = parm2_mode ? intcode_mem->data[*instr_ptr+2] : 
+	                     intcode_mem->data[intcode_mem->data[*instr_ptr+2]];
 
 	int result;
 	switch (op) 
@@ -134,7 +134,7 @@ void binary_op(int_vec* intcode_mem, int* instr_ptr, int parm1_mode, int parm2_m
 		       break;
 	}	       
 
-	intcode_mem->elements[intcode_mem->elements[*instr_ptr+3]] = result;
+	intcode_mem->data[intcode_mem->data[*instr_ptr+3]] = result;
 	*instr_ptr += 4;
 }
 
@@ -145,22 +145,22 @@ void input_op(int_vec* intcode_mem, int* instr_ptr)
 	while (scanf("%d", &input) != 1)
 		printf("Invalid input.\n> ");
 
-	intcode_mem->elements[intcode_mem->elements[*instr_ptr+1]] = input;
+	intcode_mem->data[intcode_mem->data[*instr_ptr+1]] = input;
 	*instr_ptr += 2;
 }
 
 void output_op(int_vec* intcode_mem, int* instr_ptr, int parm1_mode)
 {
-	int output = parm1_mode ? intcode_mem->elements[*instr_ptr+1] : 
-		                  intcode_mem->elements[intcode_mem->elements[*instr_ptr+1]];
+	int output = parm1_mode ? intcode_mem->data[*instr_ptr+1] : 
+		                  intcode_mem->data[intcode_mem->data[*instr_ptr+1]];
 	printf("Output: %d\n", output);
 	*instr_ptr += 2;
 }
 
 void jmp_op(int_vec* intcode_mem, int* instr_ptr, int parm1_mode, int parm2_mode, int jmp_condition)
 {
-	int condition = parm1_mode ? intcode_mem->elements[*instr_ptr+1] : 
-		                     intcode_mem->elements[intcode_mem->elements[*instr_ptr+1]];
+	int condition = parm1_mode ? intcode_mem->data[*instr_ptr+1] : 
+		                     intcode_mem->data[intcode_mem->data[*instr_ptr+1]];
 
 	//a true condition can be any non-zero value
 	if (condition)
@@ -168,8 +168,8 @@ void jmp_op(int_vec* intcode_mem, int* instr_ptr, int parm1_mode, int parm2_mode
 
 	if (condition == jmp_condition)
 	{
-		*instr_ptr = parm2_mode ? intcode_mem->elements[*instr_ptr+2] :
-			                  intcode_mem->elements[intcode_mem->elements[*instr_ptr+2]];
+		*instr_ptr = parm2_mode ? intcode_mem->data[*instr_ptr+2] :
+			                  intcode_mem->data[intcode_mem->data[*instr_ptr+2]];
 	}
 	else
 	{

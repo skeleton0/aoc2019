@@ -88,24 +88,24 @@ int main()
 
 	for (int i = 0; i < wire1.size-1; ++i)
 	{
-		int path1_is_y_direction = wire1.elements[i].x == wire1.elements[i+1].x;
+		int path1_is_y_direction = wire1.data[i].x == wire1.data[i+1].x;
 		int path1_const_dimension;
 		struct Range path1_range;
 
 		if (path1_is_y_direction)
 		{
-			path1_const_dimension = wire1.elements[i].x;
-			path1_range = get_range(wire1.elements[i].y, wire1.elements[i+1].y);
+			path1_const_dimension = wire1.data[i].x;
+			path1_range = get_range(wire1.data[i].y, wire1.data[i+1].y);
 		}
 		else
 		{
-			path1_const_dimension = wire1.elements[i].y;
-			path1_range = get_range(wire1.elements[i].x, wire1.elements[i+1].x);
+			path1_const_dimension = wire1.data[i].y;
+			path1_range = get_range(wire1.data[i].x, wire1.data[i+1].x);
 		}
 
 		for (int j = 0; j < wire2.size-1; ++j)
 		{
-			int path2_is_y_direction = wire2.elements[j].x == wire2.elements[j+1].x;
+			int path2_is_y_direction = wire2.data[j].x == wire2.data[j+1].x;
 
 			if (path1_is_y_direction == path2_is_y_direction)
 				continue;
@@ -114,13 +114,13 @@ int main()
 			struct Range path2_range;
 			if (path2_is_y_direction)
 			{
-				path2_const_dimension = wire2.elements[j].x;
-				path2_range = get_range(wire2.elements[j].y, wire2.elements[j+1].y);
+				path2_const_dimension = wire2.data[j].x;
+				path2_range = get_range(wire2.data[j].y, wire2.data[j+1].y);
 			}
 			else
 			{
-				path2_const_dimension = wire2.elements[j].y;
-				path2_range = get_range(wire2.elements[j].x, wire2.elements[j+1].x);
+				path2_const_dimension = wire2.data[j].y;
+				path2_range = get_range(wire2.data[j].x, wire2.data[j+1].x);
 			}
 
 			if (path1_range.low < path2_const_dimension &&
@@ -153,7 +153,7 @@ int main()
 	printf("Closest intersect = {%d, %d}\n", closest_intersect.x, closest_intersect.y);
 	printf("Manhattan distance = %d\n", abs(closest_intersect.x) + abs(closest_intersect.y));
 
-	free(wire1.elements);
-	free(wire2.elements);
+	free(wire1.data);
+	free(wire2.data);
 	return 0;
 }

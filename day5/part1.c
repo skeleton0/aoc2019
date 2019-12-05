@@ -39,9 +39,9 @@ int main()
 	while (!halt)
 	{
 		char instruction[MAX_OPCODE_LEN];
-		if (snprintf(instruction, MAX_OPCODE_LEN, "%d", intcode_mem.elements[instr_ptr]) == -1)
+		if (snprintf(instruction, MAX_OPCODE_LEN, "%d", intcode_mem.data[instr_ptr]) == -1)
 		{
-			printf("Error reading opcode to string: %d\n", intcode_mem.elements[instr_ptr]);
+			printf("Error reading opcode to string: %d\n", intcode_mem.data[instr_ptr]);
 			exit(EXIT_FAILURE);
 		}
 
@@ -93,7 +93,7 @@ int main()
 		}
 	}
 
-	free(intcode_mem.elements);
+	free(intcode_mem.data);
 	return 0;
 }
 
@@ -102,11 +102,11 @@ void arithmetic_op(int_vec* intcode_mem, int instr_ptr, int parm1_mode, int parm
 	int val2;
 	int result;
 
-	val1 = parm1_mode ? intcode_mem->elements[instr_ptr+1] : 
-	                    intcode_mem->elements[intcode_mem->elements[instr_ptr+1]];
+	val1 = parm1_mode ? intcode_mem->data[instr_ptr+1] : 
+	                    intcode_mem->data[intcode_mem->data[instr_ptr+1]];
 
-	val2 = parm2_mode ? intcode_mem->elements[instr_ptr+2] : 
-	                    intcode_mem->elements[intcode_mem->elements[instr_ptr+2]];
+	val2 = parm2_mode ? intcode_mem->data[instr_ptr+2] : 
+	                    intcode_mem->data[intcode_mem->data[instr_ptr+2]];
 
 	switch (op) 
 	{
@@ -118,7 +118,7 @@ void arithmetic_op(int_vec* intcode_mem, int instr_ptr, int parm1_mode, int parm
 		       break;
 	}	       
 
-	intcode_mem->elements[intcode_mem->elements[instr_ptr+3]] = result;
+	intcode_mem->data[intcode_mem->data[instr_ptr+3]] = result;
 }
 
 void input_op(int_vec* intcode_mem, int instr_ptr)
@@ -128,12 +128,12 @@ void input_op(int_vec* intcode_mem, int instr_ptr)
 	while (scanf("%d", &input) != 1)
 		printf("Invalid input.\n> ");
 
-	intcode_mem->elements[intcode_mem->elements[instr_ptr+1]] = input;
+	intcode_mem->data[intcode_mem->data[instr_ptr+1]] = input;
 }
 
 void output_op(int_vec* intcode_mem, int instr_ptr, int parm1_mode)
 {
-	int output = parm1_mode ? intcode_mem->elements[instr_ptr+1] : 
-		                  intcode_mem->elements[intcode_mem->elements[instr_ptr+1]];
+	int output = parm1_mode ? intcode_mem->data[instr_ptr+1] : 
+		                  intcode_mem->data[intcode_mem->data[instr_ptr+1]];
 	printf("Output: %d\n", output);
 }
