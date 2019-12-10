@@ -149,8 +149,6 @@ int main()
 
 			if (prev_amp_output > largest_thruster_signal)
 				largest_thruster_signal = prev_amp_output;
-
-			printf("prev_amp_output = %d\n", prev_amp_output);
 	}
 
 	printf("Largest thruster signal = %d\n", largest_thruster_signal);
