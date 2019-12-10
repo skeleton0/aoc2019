@@ -97,7 +97,6 @@ int main()
 						exit(EXIT_FAILURE);
 				}
 
-				int params;
 				switch (opcode)
 				{
 					case 1:
